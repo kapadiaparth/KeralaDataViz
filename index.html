@@ -1,0 +1,603 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta charset="UTF-8"></head>
+  <body>
+  	<div style="background-color:rgb(60, 60, 60);"><br>
+  	<div><h1 style="color:White;"><center>Visualizing the reservoirs of Idamalayar and Idukki during the Kerala floods, 2018.</center></h1></div>
+  	<p><br></p></div><p><br></p>
+  	<div><h3 style="color:rgb(120, 120, 120);"><b><center>Hello there, feel free to <mark>toggle</mark> around with legends of the charts!</center></b></h3></div><p><br></p>
+
+  	<style>
+  		#abc{
+  			max-width: 900px;
+  			padding-top: 30px;
+		    padding-right: 80px;
+		    padding-bottom: 30px;
+		    padding-left: 80px;
+		    margin-left: 240px;
+		    margin-right: 240px;
+		    border-radius: 8px;
+  		}
+  		#Map{
+  			margin: auto;
+		    width: 99%;
+		    
+		    padding: 10px;
+  		}
+  	</style>
+
+  	<div id="abc" style="background-color:rgb(60, 60, 60);">
+  		<h2><center><p style="color:White;"> Key elements to watch out for: </p></center><p></p></h2>
+  		<p><br></p>
+  		<p style="color: White"> 1) Formation of two low consecutive 
+pressure belts in northern Bay of Bengal (7th and 14th August) caused 
+heavy downpour on Kerala. It is cleary evident how the Inflow at both 
+the reservoir spiked around these dates. </p>
+  		<p style="color: White">2) The delay in trial run of opening gates 
+of Idukki was because of unexpected rise in level of Idamalayar 
+reservoir on 9th August.Water released from both Idukki and Idamalayar 
+meets at Bhoothantakettu which would have been completely flooded incase
+ Idukki was opened on the same day of 9th August.</p>
+  		<p style="color: White">3) The amount of water released from TN 
+(Mullaperiyar Dam) was 35.11 mcm and 57.2 mcm on 15th and 16th August 
+respectively. While we can see the sudden release of water in much 
+higher quantity from these two reservoirs which possibly is actual cause
+ for the flooding.</p>
+  		<p><br></p>
+  	</div>
+
+  	<p><br></p><img id="Map" style="align-content: center;" src="index_files/FlowofWater.png">
+  	<center><p>Fig. Shows the relative position of the reservoirs and the direction in which water flows through them</p></center>
+
+  	
+  	<p><br></p><p><br></p>
+  	<div><h2><center>Idamalayar Reservoir</center></h2></div>
+    <div id="chart"><iframe class="chartjs-hidden-iframe" style="display: block; overflow: hidden; border: 0px none; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;" tabindex="-1"></iframe>
+      <canvas id="canvas" style="display: block; height: 751px; width: 1503px;" width="1878" height="938"></canvas>
+      <p><br></p><p><br></p>
+     <div><h2><center>Idukki Reservoir</center></h2></div>  
+     <div><iframe class="chartjs-hidden-iframe" style="display: block; overflow: hidden; border: 0px none; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;" tabindex="-1"></iframe> <canvas id="canvas2" style="display: block; height: 751px; width: 1503px;" width="1878" height="938"></canvas></div>
+     <p><br></p><p><br></p>
+     <div><h2><center>Co-ordination of outflow of water from Idamalayar and Idukki Reservoirs</center></h2></div> 
+    <div><iframe class="chartjs-hidden-iframe" style="display: block; overflow: hidden; border: 0px none; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;" tabindex="-1"></iframe><canvas id="canvas3" style="display: block; height: 751px; width: 1503px;" width="1878" height="938"></canvas></div>
+    <p><br></p><p><br></p>
+     <div><h2><center>Closer look at the co-ordination of outflow of water from Idamalayar and Idukki Reservoirs</center></h2></div> 
+     <div><iframe class="chartjs-hidden-iframe" style="display: block; overflow: hidden; border: 0px none; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;" tabindex="-1"></iframe><canvas id="canvas4" style="display: block; height: 751px; width: 1503px;" width="1878" height="938"></canvas></div>
+</div>
+  
+
+  	<script src="index_files/flexio-sdk-jslatest"></script>
+  	<script src="index_files/Chart.js"></script>
+  	<script src="index_files/lodash.js"></script>
+	<script>
+
+		Chart.defaults.global.defaultFontFamily = 'Lato';
+	    Chart.defaults.global.defaultFontSize = 9;
+	    Chart.defaults.global.defaultFontColor = '#777';
+	    Chart.defaults.global.elements.line.fill = false;
+
+	(function(window, document, Flexio, undefined) {
+
+		function render(data)
+			{
+			    var chart_data = formatDataForChart(data)
+			    var ctx = document.getElementById('canvas').getContext('2d')
+
+			    window.my_chart = new Chart(ctx, {
+			      type: 'bar',
+			      data: chart_data,
+			      options: {
+			        responsive: true,
+			        legend: {
+			          position: 'top'
+			        },
+			        title: {
+			          display: false,
+			          text: 'IDAMALAYAR RESERVOIR'
+			        },
+
+			         scales: {
+
+			         	  xAxes:[{
+			         	  	scaleLabel: {
+							        display: true,
+							        labelString: 'Date'
+							      }
+			         	  }],	
+					      yAxes: [{
+					        id: 'A',
+					        type: 'linear',
+					        position: 'left',
+					        ticks: {
+					          max: 180,
+					          min: 0
+					        },
+					        scaleLabel: {
+							        display: true,
+							        labelString: 'Volume of water flowing (million cubic metres)'
+							      }
+
+					      }, {
+					        id: 'B',
+					        type: 'linear',
+					        position: 'right',
+					        ticks: {
+					          max: 1100,
+					          min: 0
+					        },
+					        scaleLabel: {
+							        display: true,
+							        labelString: 'Volume of water in reservoir (million cubic metres)'
+							      }
+					      }]
+					    }
+
+			      }
+			    })
+			}
+		
+		
+		    Flexio.setup('tmdhcqhzvytsbrkvbbjs')
+		   	Flexio.pipe()
+		    .request('https://raw.githubusercontent.com/kapadiaparth/KeralaDataViz/gh-pages/flowIDAMALAYAR.csv')
+		    .convert('csv','json')
+		    .run(function(err, response) {
+		      var data = JSON.parse(response.text)
+		      render(data)
+		    	})
+
+
+		function formatDataForChart(content)
+				{ var abc="bar";
+				  var xyz= 'A';	
+				  var rang ='rgba(54, 162, 235, 0.6)';
+				  var first_item = _.get(content, '[0]', {})
+				  var column_labels = _.map(_.omit(first_item, ['date']), function(val, key) {
+				    if (key != 'date')
+				      return key
+				  })
+
+				  // use Lodash to reformat the JSON for use with Chart.js
+				  var datasets = _.map(content, function(item) {
+				    // use the 'os' column as our label
+				    var item_label = _.get(item, 'date', 'Not Found') 
+
+				    if(item_label=="Water in reservoir")
+				     	{ abc = "line";
+				     	  xyz = 'B';
+				     	  rang = 'rgba(255, 206, 86, 0.6)';	
+				 		}
+				 	if(item_label=="Critical Volume")	
+				 		{ //item_label = Critical Volume;
+				 			abc = "line";
+				     	  xyz = 'B';
+				     	  rang = 'rgba(255, 255, 255, 0.6)'
+				        	}
+				 	else if(item_label=="Outflow")	
+				 		{rang = 'rgba(255, 99, 132, 0.6)'}
+				 		
+				     console.log(item_label);
+				     console.log(rang);
+				     console.log(abc);
+				    // create an array of number values from each item's JSON object
+				    var item_values = _.map(_.omit(item, ['date']), function(val) {
+				      return parseFloat(val)
+				    })
+
+				    return {
+				      label: item_label,
+				      type: abc,
+				      yAxisID: xyz,
+				      data: item_values,
+				      backgroundColor: rang//getRandomColor()
+				      
+				    }
+				  })
+
+				  var chart_data = {
+				    labels: column_labels,
+				    datasets: datasets
+				  }
+
+				  return chart_data
+				}
+
+
+		 
+	})(window, document, Flexio)    
+	
+</script>
+
+<script>
+
+		Chart.defaults.global.defaultFontFamily = 'Lato';
+	    Chart.defaults.global.defaultFontSize = 9;
+	    Chart.defaults.global.defaultFontColor = '#777';
+	    Chart.defaults.global.elements.line.fill = false;	
+	
+	(function(window, document, Flexio, undefined) {
+
+		function render2(data)
+			{
+			    var chart_data = formatDataForChart2(data)
+			    var ctx2 = document.getElementById('canvas2').getContext('2d')
+
+			    window.my_chart = new Chart(ctx2, {
+			      type: 'bar',
+			      data: chart_data,
+			      options: {
+			        responsive: true,
+			        legend: {
+			          position: 'top'
+			        },
+			        title: {
+			          display: false,
+			          text: 'IDUKKI RESERVOIR'
+			        },
+
+			           scales: {
+
+			         	  xAxes:[{
+			         	  	scaleLabel: {
+							        display: true,
+							        labelString: 'Date'
+							      }
+			         	  }],	
+					      yAxes: [{
+					        id: 'A',
+					        type: 'linear',
+					        position: 'left',
+					        scaleLabel: {
+							        display: true,
+							        labelString: 'Volume of water flowing (million cubic metres)'
+							      }
+					      }, {
+					        id: 'B',
+					        type: 'linear',
+					        position: 'right',
+					        ticks: {
+					          max: 1500,
+					          min: 0
+					        },
+					        scaleLabel: {
+							        display: true,
+							        labelString: 'Volume of water in reservoir (million cubic metres)'
+							      }
+					      }]
+					    }
+			      }
+			    })
+			}
+		
+		
+
+	 Flexio.setup('tmdhcqhzvytsbrkvbbjs')
+		   	Flexio.pipe()
+		    .request('https://raw.githubusercontent.com/kapadiaparth/KeralaDataViz/gh-pages/lineheight.csv')
+		    .convert('csv','json')
+		    .run(function(err, response) {
+		      var data = JSON.parse(response.text)
+		      render2(data)
+		    	})
+
+
+		function formatDataForChart2(content)
+				{ var abc="bar";
+				  var xyz= 'A';	
+				  var rang ='rgba(54, 162, 235, 0.6)';
+				  var first_item = _.get(content, '[0]', {})
+				  var column_labels = _.map(_.omit(first_item, ['date']), function(val, key) {
+				    if (key != 'date')
+				      return key
+				  })
+
+				  // use Lodash to reformat the JSON for use with Chart.js
+				  var datasets = _.map(content, function(item) {
+				    // use the 'os' column as our label
+				    var item_label = _.get(item, 'date', 'Not Found')
+				    
+				     if(item_label=="Water in reservoir")
+				     	{ abc = "line";
+				     	  xyz = 'B';
+				     	  rang = 'rgba(255, 206, 86, 0.6)';	
+				 		}
+				 	if(item_label=="Critical Volume")	
+				 		{ //item_label = Critical Volume;
+				 			abc = "line";
+				     	  xyz = 'B';
+				     	  rang = 'rgba(255, 255, 255, 0.6)'
+				        	}
+				     	  	
+				 	else if(item_label=="Outflow")	
+				 		{rang = 'rgba(255, 99, 132, 0.6)'}
+
+				 		
+				     console.log(abc);
+				    // create an array of number values from each item's JSON object
+				    var item_values = _.map(_.omit(item, ['date']), function(val) {
+				      return parseFloat(val)
+				    })
+
+				    return {
+
+				      label: item_label,
+				      type: abc,
+				      yAxisID: xyz,
+				      data: item_values,
+				      backgroundColor: rang//getRandomColor()
+				    }
+				  })
+
+				  var chart_data = {
+				    labels: column_labels,
+				    datasets: datasets
+				  }
+
+				  return chart_data
+				}
+		 
+	})(window, document, Flexio) 
+	</script>   
+
+	<script>
+
+		Chart.defaults.global.defaultFontFamily = 'Lato';
+	    Chart.defaults.global.defaultFontSize = 9;
+	    Chart.defaults.global.defaultFontColor = '#777';
+	    Chart.defaults.global.elements.line.fill = false;
+
+	(function(window, document, Flexio, undefined) {
+
+		function render3(data)
+			{
+			    var chart_data = formatDataForChart3(data)
+			    var ctx3 = document.getElementById('canvas3').getContext('2d')
+
+			    window.my_chart = new Chart(ctx3, {
+			      type: 'bar',
+			      data: chart_data,
+			      options: {
+			        responsive: true,
+			        legend: {
+			          position: 'top'
+			        },
+			        title: {
+			          display: false,
+			          text: 'Co-ordination of outflow of water from Idamalayar and Idukki Reservoirs'
+			        },
+
+			         scales: {
+
+			         	  xAxes:[{
+			         	  	scaleLabel: {
+							        display: true,
+							        labelString: 'Date'
+							      }
+			         	  }],	
+					      yAxes: [{
+					        id: 'A',
+					        type: 'linear',
+					        position: 'left',
+					        scaleLabel: {
+							        display: true,
+							        labelString: 'Volume of water flowing out (million cubic metres)'
+							      }
+					      }, {
+					        id: 'B',
+					        type: 'linear',
+					        position: 'right',
+					        ticks: {
+					          max: 100,
+					          min: 75
+					        },
+					        scaleLabel: {
+							        display: true,
+							        labelString: '% of Full Reservoir Capacity'
+							      }
+					      }]
+					    }
+
+			      }
+			    })
+			}
+		
+		
+		    Flexio.setup('tmdhcqhzvytsbrkvbbjs')
+		   	Flexio.pipe()
+		    .request('https://raw.githubusercontent.com/kapadiaparth/KeralaDataViz/gh-pages/SpillageCoordination.csv')
+		    .convert('csv','json')
+		    .run(function(err, response) {
+		      var data = JSON.parse(response.text)
+		      render3(data)
+		    	})
+
+
+		function formatDataForChart3(content)
+				{ var abc="bar";
+				  var xyz= 'A';	
+				  var rang ='rgba(255, 206, 86, 0.6)';
+				  var first_item = _.get(content, '[0]', {})
+				  var column_labels = _.map(_.omit(first_item, ['date']), function(val, key) {
+				    if (key != 'date')
+				      return key
+				  })
+
+				  // use Lodash to reformat the JSON for use with Chart.js
+				  var datasets = _.map(content, function(item) {
+				    // use the 'os' column as our label
+				    var item_label = _.get(item, 'date', 'Not Found') 
+
+				    if(item_label=="Idukki Outflow")
+				    	{ rang = 'rgba(54, 162, 235, 0.6)' }
+
+				    if(item_label=="Idamalayar Reservoir  % storage")
+				     	{ abc = "line";
+				     	  xyz = 'B';
+				     	  rang = 'rgba(255, 206, 86, 0.6)';	
+				 		}
+				 	if(item_label=="Idukki Reservoir % storage")	
+				 		{	abc = "line";
+				     	  xyz = 'B';
+				 			rang = 'rgba(54, 162, 235, 0.6)'}
+				 		
+				     console.log(item_label);
+				     console.log(rang);
+				     console.log(abc);
+				    // create an array of number values from each item's JSON object
+				    var item_values = _.map(_.omit(item, ['date']), function(val) {
+				      return parseFloat(val)
+				    })
+
+				    return {
+				      label: item_label,
+				      type: abc,
+				      yAxisID: xyz,
+				      data: item_values,
+				      backgroundColor: rang//getRandomColor()
+				      
+				    }
+				  })
+
+				  var chart_data = {
+				    labels: column_labels,
+				    datasets: datasets
+				  }
+
+				  return chart_data
+				}
+		 
+	})(window, document, Flexio)    
+	
+	</script>
+
+	<script>
+
+		Chart.defaults.global.defaultFontFamily = 'Lato';
+	    Chart.defaults.global.defaultFontSize = 12;
+	    Chart.defaults.global.defaultFontColor = '#777';
+	    Chart.defaults.global.elements.line.fill = false;
+
+	(function(window, document, Flexio, undefined) {
+
+		function render4(data)
+			{
+			    var chart_data = formatDataForChart4(data)
+			    var ctx4 = document.getElementById('canvas4').getContext('2d')
+
+			    window.my_chart = new Chart(ctx4, {
+			      type: 'bar',
+			      data: chart_data,
+			      options: {
+			        responsive: true,
+			        legend: {
+			          position: 'top'
+			        },
+			        title: {
+			          display: false,
+			          text: 'Co-ordination of outflow of water from Idamalayar and Idukki Reservoirs'
+			        },
+
+			         scales: {
+
+			         	  xAxes:[{
+			         	  	scaleLabel: {
+							        display: true,
+							        labelString: 'Date'
+							      }
+			         	  }],	
+					      yAxes: [{
+					        id: 'A',
+					        type: 'linear',
+					        position: 'left',
+					        scaleLabel: {
+							        display: true,
+							        labelString: 'Volume of water flowing out (million cubic metres)'
+							      }
+					      }, {
+					        id: 'B',
+					        type: 'linear',
+					        position: 'right',
+					        ticks: {
+					          max: 100,
+					          min: 75
+					        },
+					        scaleLabel: {
+							        display: true,
+							        labelString: '% of Full Reservoir Capacity'
+							      }
+					      }]
+					    }
+
+			      }
+			    })
+			}
+		
+		
+		    Flexio.setup('tmdhcqhzvytsbrkvbbjs')
+		   	Flexio.pipe()
+		    .request('https://raw.githubusercontent.com/kapadiaparth/KeralaDataViz/gh-pages/CloserViewSpillageCoordination.csv')
+		    .convert('csv','json')
+		    .run(function(err, response) {
+		      var data = JSON.parse(response.text)
+		      render4(data)
+		    	})
+
+
+		function formatDataForChart4(content)
+				{ var abc="bar";
+				  var xyz= 'A';	
+				  var rang ='rgba(255, 206, 86, 0.6)';
+				  var first_item = _.get(content, '[0]', {})
+				  var column_labels = _.map(_.omit(first_item, ['date']), function(val, key) {
+				    if (key != 'date')
+				      return key
+				  })
+
+				  // use Lodash to reformat the JSON for use with Chart.js
+				  var datasets = _.map(content, function(item) {
+				    // use the 'os' column as our label
+				    var item_label = _.get(item, 'date', 'Not Found') 
+
+				    if(item_label=="Idukki Outflow")
+				    	{ rang = 'rgba(54, 162, 235, 0.6)' }
+
+				    if(item_label=="Idamalayar Reservoir  % storage")
+				     	{ abc = "line";
+				     	  xyz = 'B';
+				     	  rang = 'rgba(255, 206, 86, 0.6)';	
+				 		}
+				 	if(item_label=="Idukki Reservoir % storage")	
+				 		{	abc = "line";
+				     	  xyz = 'B';
+				 			rang = 'rgba(54, 162, 235, 0.6)'}
+				 		
+				     console.log(item_label);
+				     console.log(rang);
+				     console.log(abc);
+				    // create an array of number values from each item's JSON object
+				    var item_values = _.map(_.omit(item, ['date']), function(val) {
+				      return parseFloat(val)
+				    })
+
+				    return {
+				      label: item_label,
+				      type: abc,
+				      yAxisID: xyz,
+				      data: item_values,
+				      backgroundColor: rang//getRandomColor()
+				      
+				    }
+				  })
+
+				  var chart_data = {
+				    labels: column_labels,
+				    datasets: datasets
+				  }
+
+				  return chart_data
+				}
+		 
+	})(window, document, Flexio)    
+	
+	</script>
+	
+</body></html>
